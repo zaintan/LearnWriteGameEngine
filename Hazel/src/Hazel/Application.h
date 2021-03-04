@@ -7,14 +7,12 @@
 #include "Hazel/LayerStack.h"
 //#include "Hazel/ImGui/ImGuiLayer.h"
 
+
 namespace Hazel {
 	
 	class WindowCloseEvent;
 	class ImGuiLayer;
-	class Shader;
-	class VertexBuffer;
-	class IndexBuffer;
-	class VertexArray;
+
 
 	class HAZEL_API Application
 	{
@@ -39,14 +37,7 @@ namespace Hazel {
 
 		ImGuiLayer* m_ImGuiLayer;
 
-		std::shared_ptr<VertexArray> m_VertexArray;
-		std::shared_ptr<VertexBuffer> m_VertexBuffer;
-		std::shared_ptr<IndexBuffer> m_IndexBuffer;
-		std::shared_ptr<Shader> m_Shader;
-
-		std::shared_ptr<Shader> m_BlueShader;
-		std::shared_ptr<VertexArray> m_SquareVA;
-
+		float m_LastFrameTime = 0.0f;
 		static Application* s_Instance;
 	};
 

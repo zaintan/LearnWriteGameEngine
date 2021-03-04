@@ -5,13 +5,12 @@ namespace Hazel {
 	class Shader
 	{
 	public:
-		Shader(std::string& vertexSrc, std::string& fragmentSrc);
-		~Shader();
+		virtual ~Shader() = default;
 
-		void Bind()const;
-		void UnBind()const;
-	private:
-		uint32_t m_RendererID;
+		virtual void Bind()const = 0;
+		virtual void Unbind()const = 0;
+
+		static Shader* Create(std::string& vertexSrc, std::string& fragmentSrc);
 	};
 
 }
