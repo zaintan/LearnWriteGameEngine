@@ -11,7 +11,10 @@
 #include "Hazel/Render/Buffer.h"
 #include "Hazel/Render/VertexArray.h"
 
-#include <glad/glad.h>
+#include "Render/Renderer.h"
+#include "Render/RenderCommand.h"
+
+//#include <glad/glad.h>
 
 namespace Hazel {
 
@@ -143,16 +146,22 @@ namespace Hazel {
 
 		while (m_Running)
 		{
-			glClearColor(0, 0, 0, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor(glm::vec4(0,0,0,1));
+			RenderCommand::Clear();
 
 			m_BlueShader->Bind();
 			m_SquareVA->Bind();
-			glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			
+			Renderer::BeginScene();
+			Renderer::Submit(m_SquareVA);
+			Renderer::EndScene();
 
 			m_Shader->Bind();
 			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			Renderer::BeginScene();
+			Renderer::Submit(m_VertexArray);
+			Renderer::EndScene();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();	

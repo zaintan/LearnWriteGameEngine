@@ -9,10 +9,10 @@ namespace Hazel {
 	VertexArray* VertexArray::Create() {
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::NONE:
+		case RendererAPI::API::NONE:
 			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); 
 			return nullptr;
-		case RendererAPI::OpenGL:
+		case RendererAPI::API::OpenGL:
 			//return
 			return new OpenGLVertexArray();
 		}

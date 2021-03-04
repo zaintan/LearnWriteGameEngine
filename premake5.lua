@@ -105,7 +105,8 @@ project "Hazel"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{prj.name}/vendor/glfw/include",
 		"%{prj.name}/vendor/glad/include",
-		"%{prj.name}/vendor/imgui"
+		"%{prj.name}/vendor/imgui",
+		"%{prj.name}/vendor/glm",
 	}
 
 	links
