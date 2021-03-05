@@ -8,6 +8,11 @@ workspace "Hazel"
 		"Dist"
 	}
 
+	flags
+	{
+		"MultiProcessorCompile"
+	}
+	
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 group "Dependencies"
@@ -90,7 +95,9 @@ project "Hazel"
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl",		
+		"%{prj.name}/vendor/glm/glm/**.inl",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",				
 	}
 
 	defines
@@ -107,6 +114,7 @@ project "Hazel"
 		"%{prj.name}/vendor/glad/include",
 		"%{prj.name}/vendor/imgui",
 		"%{prj.name}/vendor/glm",
+		"%{prj.name}/vendor/stb_image",		
 	}
 
 	links

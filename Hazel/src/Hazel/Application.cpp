@@ -8,6 +8,8 @@
 
 #include "Hazel/ImGui/ImGuiLayer.h"
 
+#include "Hazel/Render/Renderer.h"
+
 
 //#include <glad/glad.h>
 #include <glfw/glfw3.h>
@@ -23,6 +25,8 @@ namespace Hazel {
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::onEvent));
+
+		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);

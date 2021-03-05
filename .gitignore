@@ -15,3 +15,6 @@ bin-int/
 **.opensdf
 **.sdf
 **.suo
+
+# imgui
+*.ini

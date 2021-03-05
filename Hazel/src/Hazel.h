@@ -20,6 +20,7 @@
 
 #include "Hazel/Render/Buffer.h"
 #include "Hazel/Render/Shader.h"
+#include "Hazel/Render/Texture.h"
 #include "Hazel/Render/VertexArray.h"
 
 #include "Hazel/Render/OrthographicCamera.h"
