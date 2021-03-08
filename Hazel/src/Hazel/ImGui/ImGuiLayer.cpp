@@ -1,13 +1,13 @@
 #include "hzpch.h"
-#include "Hazel/ImGui//ImGuiLayer.h"
+#include "Hazel/ImGui/ImGuiLayer.h"
 
 #include "imgui.h"
 //#include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
 #include "examples/imgui_impl_glfw.h"
 #include "examples/imgui_impl_opengl3.h"
 
-#include "Hazel/Application.h"
-//#include "Hazel/Core.h"
+#include "Hazel/Core/Application.h"
+
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Events/KeyEvent.h"
 #include "Hazel/Events/MouseEvent.h"

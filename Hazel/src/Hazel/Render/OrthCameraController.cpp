@@ -1,12 +1,12 @@
 #include "hzpch.h"
-#include "Hazel/OrthCameraController.h"
+#include "Hazel/Render/OrthCameraController.h"
 #include "Hazel/Core/Timestep.h"
 #include "Hazel/Events/Event.h"
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Events/MouseEvent.h"
 #include "Hazel/Events/KeyEvent.h"
-#include "Hazel/Input.h"
-#include "Hazel/KeyCodes.h"
+#include "Hazel/Core/Input.h"
+#include "Hazel/Core/KeyCodes.h"
 
 namespace Hazel {
 

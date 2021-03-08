@@ -1,5 +1,5 @@
 #include "hzpch.h"
-#include "GraphicsContext.h"
+#include "Hazel/Render/GraphicsContext.h"
 
 /*
 namespace Hazel {

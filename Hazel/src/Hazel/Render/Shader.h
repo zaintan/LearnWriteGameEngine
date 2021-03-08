@@ -2,6 +2,7 @@
 
 #include <string>
 #include <unordered_map>
+#include "Hazel/Core/Core.h"
 
 namespace Hazel {
 

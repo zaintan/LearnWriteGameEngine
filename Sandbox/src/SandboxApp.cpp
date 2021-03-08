@@ -1,11 +1,11 @@
-#include <Hazel.h>
-#include <Hazel/EntryPoint.h>
+#include "Hazel.h"
+#include "Hazel/Core/EntryPoint.h"
 
 //#include <Hazel/Events/KeyEvent.h>
 
 #include "imgui/imgui.h"
 
-#include "Hazel/OrthCameraController.h"
+#include "Hazel/Render/OrthCameraController.h"
 #include "Hazel/Render/Shader.h"
 #include "Hazel/Render/Buffer.h"
 #include "Hazel/Render/VertexArray.h"
