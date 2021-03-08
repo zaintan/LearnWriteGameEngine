@@ -27,6 +27,7 @@ namespace Hazel {
 		const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
 		const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
 
+		void SetProjection(float left, float right, float bottom, float top);
 	private:
 
 		void recaculateViewMatrix();

@@ -28,6 +28,7 @@ namespace Hazel {
 
 		Renderer::Init();
 
+		//m_ImGuiLayer = nullptr;
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 	}
@@ -48,11 +49,12 @@ namespace Hazel {
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(timestep);
 
-			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
-				layer->OnImGuiRender();
-			m_ImGuiLayer->End();
-						
+			if (m_ImGuiLayer) {
+				m_ImGuiLayer->Begin();
+				for (Layer* layer : m_LayerStack)
+					layer->OnImGuiRender();
+				m_ImGuiLayer->End();
+			}
 			m_Window->OnUpdate();
 		}
 	}
@@ -73,7 +75,7 @@ namespace Hazel {
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::onWindowClose));
-
+		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::onWindowResized));
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
 			(*--it)->OnEvent(e);
@@ -86,6 +88,20 @@ namespace Hazel {
 		HZ_CORE_TRACE("onWindowClose: {0}", event);
 		m_Running = false;
 		return true;
+	}
+
+	bool Application::onWindowResized(WindowResizeEvent & e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+
+		m_Minimized = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 
 }
