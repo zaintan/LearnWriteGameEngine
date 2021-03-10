@@ -1,21 +1,18 @@
-#include "Hazel.h"
-#include "Hazel/Core/EntryPoint.h"
+#include <Hazel.h>
+#include <Hazel/Core/EntryPoint.h>
 
-//#include <Hazel/Events/KeyEvent.h>
+#include <imgui/imgui.h>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-#include "imgui/imgui.h"
+#include <Hazel/Render/OrthCameraController.h>
+#include <Hazel/Render/Shader.h>
+#include <Hazel/Render/Buffer.h>
+#include <Hazel/Render/VertexArray.h>
+#include <Hazel/Render/Renderer.h>
+#include <Hazel/Render/RenderCommand.h>
 
-#include "Hazel/Render/OrthCameraController.h"
-#include "Hazel/Render/Shader.h"
-#include "Hazel/Render/Buffer.h"
-#include "Hazel/Render/VertexArray.h"
-#include "Hazel/Render/Renderer.h"
-#include "Hazel/Render/RenderCommand.h"
-
-#include "glm/gtc/matrix_transform.hpp"
-
-#include "Platform/OpenGL/OpenGLShader.h"
-#include "glm/gtc/type_ptr.hpp"
+#include "Sandbox2D.h"
 
 class ExampleLayer : public Hazel::Layer
 {
@@ -25,7 +22,7 @@ public:
 	{
 		
 		//square
-		m_SquareVA.reset(Hazel::VertexArray::Create());
+		m_SquareVA = Hazel::VertexArray::Create();
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 			0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
@@ -33,8 +30,8 @@ public:
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		Hazel::Ref<Hazel::VertexBuffer> squareVB;
-		squareVB.reset(Hazel::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		Hazel::Ref<Hazel::VertexBuffer> squareVB = Hazel::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
+
 		squareVB->SetLayout({
 			{ Hazel::ShaderDataType::Float3, "a_Position" },
 			{ Hazel::ShaderDataType::Float2, "a_TexCoord" }
@@ -42,8 +39,7 @@ public:
 		m_SquareVA->AddVertexBuffer(squareVB);
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Hazel::Ref<Hazel::IndexBuffer> squareIB;
-		squareIB.reset(Hazel::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		Hazel::Ref<Hazel::IndexBuffer> squareIB = Hazel::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
 		m_ShaderLibrary.Load("assets/shaders/FlatColor.glsl");
@@ -52,9 +48,8 @@ public:
 		m_Texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
 		m_ChernoLogoTexture = Hazel::Texture2D::Create("assets/textures/ChernoLogo.png");
 
-		auto oglTextureShader = std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_ShaderLibrary.Get("Texture"));
-		oglTextureShader->Bind();
-		oglTextureShader->UploadUniformInt("u_Texture", 0);
+		m_ShaderLibrary.Get("Texture")->Bind();
+		m_ShaderLibrary.Get("Texture")->SetInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Hazel::Timestep ts) override
@@ -70,12 +65,11 @@ public:
 
 		Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
 
-		auto oglFlatColorShader = std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_ShaderLibrary.Get("FlatColor"));
+		auto flatColorShader = m_ShaderLibrary.Get("FlatColor");
+		auto textureShader   = m_ShaderLibrary.Get("Texture");
 
-		oglFlatColorShader->Bind();
-		oglFlatColorShader->UploadUniformFloat4("u_Color", glm::vec4(m_SquareColor,1.0));
-
-		
+		flatColorShader->Bind();
+		flatColorShader->SetFloat4("u_Color", glm::vec4(m_SquareColor, 1.0));
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 		for (int y = 0; y < 20; y++)
@@ -84,11 +78,9 @@ public:
 			{
 				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				Hazel::Renderer::Submit(m_SquareVA, oglFlatColorShader, transform);
+				Hazel::Renderer::Submit(m_SquareVA, flatColorShader, transform);
 			}
 		}
-
-		auto textureShader = m_ShaderLibrary.Get("Texture");
 		m_Texture->Bind();
 		Hazel::Renderer::Submit(m_SquareVA, textureShader, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		m_ChernoLogoTexture->Bind();
@@ -127,8 +119,9 @@ private:
 class Sandbox : public Hazel::Application {
 public:
 	Sandbox() {
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
 		//PushOverlay(new Hazel::ImGuiLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox() {

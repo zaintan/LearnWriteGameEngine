@@ -56,7 +56,6 @@ project "Sandbox"
 
 		defines
 		{
-			"HZ_PLATFORM_WINDOWS",
 			"_UNICODE",
 			"UNICODE",
 		}
@@ -131,7 +130,6 @@ project "Hazel"
 		defines
 		{
 			"HZ_BUILD_DLL",
-			"HZ_PLATFORM_WINDOWS",
 			"_WINDLL",
 			"_UNICODE",
 			"UNICODE",

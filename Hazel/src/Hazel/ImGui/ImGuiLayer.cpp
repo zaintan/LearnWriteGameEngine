@@ -1,19 +1,14 @@
 #include "hzpch.h"
 #include "Hazel/ImGui/ImGuiLayer.h"
-
-#include "imgui.h"
-//#include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
-#include "examples/imgui_impl_glfw.h"
-#include "examples/imgui_impl_opengl3.h"
-
 #include "Hazel/Core/Application.h"
 
-#include "Hazel/Events/ApplicationEvent.h"
-#include "Hazel/Events/KeyEvent.h"
-#include "Hazel/Events/MouseEvent.h"
+#include <imgui.h>
+#include <examples/imgui_impl_glfw.h>
+#include <examples/imgui_impl_opengl3.h>
 
-#include "GLFW/glfw3.h"
-#include "glad/glad.h"
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
+
 
 namespace Hazel {
 
@@ -89,9 +84,4 @@ namespace Hazel {
 		}
 	}
 
-	void ImGuiLayer::OnImGuiRender()
-	{
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
-	}
 }

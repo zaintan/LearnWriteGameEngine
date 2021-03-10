@@ -1,17 +1,16 @@
 #include "hzpch.h"
+
 #include "Hazel/Core/Application.h"
+#include "Hazel/Core/Log.h"
 
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Events/KeyEvent.h"
 #include "Hazel/Events/MouseEvent.h"
-#include "Hazel/Core/Log.h"
-
-#include "Hazel/ImGui/ImGuiLayer.h"
 
 #include "Hazel/Render/Renderer.h"
 
+#include "Hazel/ImGui/ImGuiLayer.h"
 
-//#include <glad/glad.h>
 #include <glfw/glfw3.h>
 
 namespace Hazel {
@@ -23,7 +22,7 @@ namespace Hazel {
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");//
 		s_Instance = this;//
 
-		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window = Window::Create();
 		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::onEvent));
 
 		Renderer::Init();
@@ -36,6 +35,7 @@ namespace Hazel {
 
 	Application::~Application()
 	{
+		Renderer::ShutDown();
 	}
 
 	void Application::Run()
@@ -62,13 +62,11 @@ namespace Hazel {
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
-		//layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
 		m_LayerStack.PushOverlay(layer);
-		//layer->OnAttach();
 	}
 
 	void Application::onEvent(Event& e)
