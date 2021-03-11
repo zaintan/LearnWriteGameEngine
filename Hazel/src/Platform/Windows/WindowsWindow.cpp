@@ -4,6 +4,8 @@
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Events/KeyEvent.h"
 #include "Hazel/Events/MouseEvent.h"
+#include "Hazel/Core/KeyCodes.h"
+#include "Hazel/Core/MouseCodes.h"
 #include "Hazel/Render/GraphicsContext.h"
 
 #include "Hazel/Render/Renderer.h"
@@ -15,11 +17,6 @@ namespace Hazel {
 	static void GLFWErrorCallback(int error, const char* desc)
 	{
 		HZ_CORE_ERROR("GLFW Error ({0}):{1}", error, desc);
-	}
-
-	Scope<Window> Window::Create(const WindowProps& props)
-	{
-		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -82,23 +79,24 @@ namespace Hazel {
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
+			
 			switch (action)
 			{
 			case GLFW_PRESS:
 			{
-				KeyPressedEvent event(key, 0);
+				KeyPressedEvent event(static_cast<KeyCode>(key), 0);
 				data.EventCallback(event);
 				break;
 			}
 			case GLFW_RELEASE:
 			{
-				KeyReleasedEvent event(key);
+				KeyReleasedEvent event(static_cast<KeyCode>(key));
 				data.EventCallback(event);
 				break;
 			}
 			case GLFW_REPEAT:
 			{
-				KeyPressedEvent event(key, 1);
+				KeyPressedEvent event(static_cast<KeyCode>(key), 1);
 				data.EventCallback(event);
 				break;
 			}
@@ -113,13 +111,13 @@ namespace Hazel {
 			{
 			case GLFW_PRESS:
 			{
-				MouseButtonPressedEvent event(button);
+				MouseButtonPressedEvent event(static_cast<MouseCode>(button));
 				data.EventCallback(event);
 				break;
 			}
 			case GLFW_RELEASE:
 			{
-				MouseButtonReleasedEvent event(button);
+				MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
 				data.EventCallback(event);
 				break;
 			}
@@ -146,7 +144,7 @@ namespace Hazel {
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-			KeyTypedEvent event(keycode);
+			KeyTypedEvent event(static_cast<KeyCode>(keycode));
 			data.EventCallback(event);
 		});
 	}
