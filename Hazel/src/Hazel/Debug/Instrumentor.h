@@ -7,7 +7,7 @@
 #include <thread>
 #include <iomanip>
 
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 
 namespace Hazel {
 
@@ -139,7 +139,7 @@ namespace Hazel {
 }
 
 
-#define HZ_PROFILE 1
+#define HZ_PROFILE 0
 
 // Resolve which function signature macro will be used. Note that this only
 // is resolved when the (pre)compiler starts, so the syntax highlighting
